@@ -1,26 +1,84 @@
-const aluno = require('../models/aluno')
+const res = require('express/lib/response')
+const Aluno = require('../models/aluno')
 
 const controller = {}       // Objeto vazio
 
 /*
-    Métodos do controller: 
-    Create: Cria um novo registro
-    Retrieve: Lista todos os registros
-    RetrieveOne: Lista apenas um registro
-    Update: Atualiza o registro
-    Delete: Exclui o registro
+    Métodos do controller:
+    create: cria um novo registro
+    retrieve: lista todos os registros
+    retriveOne: lista apenas um registro
+    update: atualiza o registro
+    delete: exclui o registro
 */
 
-controller.retrieve = async (req, res) => {
+controller.create = async(req, res) => {
     try{
-        const result = await Aluno.fildAll();
-        // HTTP 200: OK (implicito)
-        res.send(result);
+        await Aluno.create(req.body);
+        // HTTP 201: Created
+        res.status(201).end();
+    }
+    catch(error) {
+        console.error(error);
+        // HTTP 500: Internal Serve Error
+        res.status(500).send(error)
+    }
+};
+
+controller.retrieve = async (req, res) => {
+    try {
+        const result = await Aluno.findAll()
+        // HTTP 200: OK (implícito)
+        res.send(result)
+    }
+    catch(error) {
+        console.error(error)
+        // HTTP 500: Internal Server Error
+        res.status(500).send(error)
+    }
+}
+
+controller.retrieveOne = async(req, res) => {
+    try{
+        const result = await Aluno.findByPk(req.params.id);
+        if(result) {
+            // HTTP 200: OK (implicito)
+            res.send(result);
+        }
+        else {
+            // HTTP 404: Not Found
+            res.status(404).end()
+        }
+       
     }
     catch(error){
-        console.error(error);
+        console.error(Error);
         // HTTP 500: Internal Server Error
         res.status(500).send(error);
+    }
+}
+
+controller.update = async (req, res) => {
+    try{
+        const response = await Aluno.update(
+            req.body,
+            { where: { id: req.body.id }}
+        )
+
+        console.log("=====>", {response});
+
+        if(response[0] > 0) { // Encontrou e atualizou
+            // HTTP 204: No content
+            res.status(204).end()
+        }
+        else { // Não encontrou (e não atualizou)
+            res.status(404).end()
+        }
+    }
+    catch(error) {
+        console.error(error)
+        // HTTP 500: Internal Server Error
+        res.status(500).send(error)
     }
 }
 

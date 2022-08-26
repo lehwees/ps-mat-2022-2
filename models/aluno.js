@@ -1,79 +1,72 @@
-const { DataTypes, Model } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const db = require('../config/db');
 
-module.exports = function(){ 
-
-const Aluno = db.define('Aluno', {
-  // Model attributes are defined here
-  id: 
-  {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  lastName: {
+const model = db.define('Aluno', {
+// Model attributes are defined here
+id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
     autoIncrement: true
-  },
-  nome: {
+},
+nome: {
     type: DataTypes.STRING(100),
+    allowNull: false,
+},
+data_nascimento: {
+    type: DataTypes.DATEONLY,
     allowNull: false
-  },
-  dataNascimento: {
-    type: DataTypes, DATAONLY,
-    allowNull: false
-  },
- doc_identidade: {
+},
+doc_identidade: {
     type: DataTypes.STRING(20),
     allowNull: false
-  },
- cpf: {
+},
+cpf: {
     type: DataTypes.CHAR(14),
     allowNull: false
-  },
-  logradouro: {
+},
+logradouro: {
     type: DataTypes.STRING(100),
     allowNull: false
-  },
-  num_imovel: {
+},
+num_imovel: {
     type: DataTypes.STRING(10),
     allowNull: false
-  },
-  complemento: {
-    type: DataTypes.DataTypes.STRING(50),
+},
+complemento: {
+    type: DataTypes.STRING(50),
     allowNull: true
-  },
-   bairro: {
+},
+bairro: {
     type: DataTypes.STRING(50),
     allowNull: false
-  },
-   municipio: {
+},
+municipio: {
     type: DataTypes.STRING(50),
     allowNull: false
-  },
-   uf: {
+},
+uf: {
     type: DataTypes.CHAR(2),
     allowNull: false
-  },
-   telefone: {
+},
+telefone: {
     type: DataTypes.STRING(20),
     allowNull: false
-  },
-   email: {
+},
+email: {
     type: DataTypes.STRING(50),
     allowNull: false
-  },
-   turma: {
+},
+turma: {
     type: DataTypes.CHAR(5),
     allowNull: false
-  },
-},{
-   tableName: 'aluno'
+}
+
+}, {
+    tableName: 'alunos'
 });
 
-    //  Cria a tabela no banco de dados, caso ainda não exista
-    Model.sync();
+// Cria a tabela no banco de dados, caso ainda não exista
+model.sync()
 
-    return model
-}
+module.exports = model
