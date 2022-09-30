@@ -1,4 +1,4 @@
-const Curso = require('../models/unidade')
+const unidade = require('../models/unidade')
 
 const controller = {}       // Objeto vazio
 
@@ -13,7 +13,7 @@ const controller = {}       // Objeto vazio
 
 controller.create = async(req, res) => {
     try {
-        await Curso.create(req.body)
+        await unidade.create(req.body)
         // HTTP 201: Created
         res.status(201).end()
     }
@@ -26,7 +26,7 @@ controller.create = async(req, res) => {
 
 controller.retrieve = async (req, res) => {
     try {
-        const result = await Curso.findAll()
+        const result = await unidade.findAll()
         // HTTP 200: OK (implícito)
         res.send(result)
     }
@@ -39,7 +39,7 @@ controller.retrieve = async (req, res) => {
 
 controller.retrieveOne = async (req, res) => {
     try {
-        const result = await Curso.findByPk(req.params.id)
+        const result = await unidade.findByPk(req.params.id)
         // HTTP 200: OK
         if (result) {
             res.send(result)
@@ -55,7 +55,7 @@ controller.retrieveOne = async (req, res) => {
 
 controller.update = async(req, res) => {
     try {
-        const response = await Curso.update(
+        const response = await unidade.update(
             req.body,
             { where: { id: req.params.id }} 
         )
@@ -77,7 +77,7 @@ controller.update = async(req, res) => {
 
 controller.delete = async (req, res) => {
     try {
-        const response = await Curso.destroy(
+        const response = await unidade.destroy(
             { where: { id: req.params.id }} 
         )
 
