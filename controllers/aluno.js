@@ -1,5 +1,4 @@
-const res = require('express/lib/response')
-const Aluno = require('../models/aluno')
+const {Aluno, Turma} = require('../models')
 
 const controller = {}       // Objeto vazio
 
@@ -13,21 +12,23 @@ const controller = {}       // Objeto vazio
 */
 
 controller.create = async(req, res) => {
-    try{
-        await Aluno.create(req.body);
+    try {
+        await Aluno.create(req.body)
         // HTTP 201: Created
-        res.status(201).end();
+        res.status(201).end()
     }
     catch(error) {
-        console.error(error);
-        // HTTP 500: Internal Serve Error
+        console.error(error)
+        // HTTP 500: Internal Server Error
         res.status(500).send(error)
     }
-};
+}
 
 controller.retrieve = async (req, res) => {
     try {
-        const result = await Aluno.findAll()
+        const result = await Aluno.findAll({
+            include: { model: Turma, as: 'turmas' }
+        })
         // HTTP 200: OK (implícito)
         res.send(result)
     }
@@ -38,40 +39,41 @@ controller.retrieve = async (req, res) => {
     }
 }
 
-controller.retrieveOne = async(req, res) => {
-    try{
-        const result = await Aluno.findByPk(req.params.id);
+controller.retrieveOne = async (req, res) => {
+    try {
+        const result = await Aluno.findByPk(req.params.id)
+
         if(result) {
-            // HTTP 200: OK (implicito)
-            res.send(result);
+            // HTTP 200: OK (implícito)
+            res.send(result)
         }
         else {
-            // HTTP 404: Not Found
+            // HTTP 404: Not found  
             res.status(404).end()
         }
-       
     }
-    catch(error){
-        console.error(Error);
+    catch(error) {
+        console.error(error)
         // HTTP 500: Internal Server Error
-        res.status(500).send(error);
+        res.status(500).send(error)
     }
 }
 
 controller.update = async (req, res) => {
-    try{
+    //console.log('==============>', req.params.id)
+    try {
         const response = await Aluno.update(
-            req.body,
-            { where: { id: req.params.id }}
+            req.body, 
+            { where: { id: req.params.id } }
         )
 
-        console.log("=====>", {response});
+        // console.log("======>", {response})
 
-        if(response[0] > 0) { // Encontrou e atualizou
+        if(response[0] > 0) {  // Encontrou e atualizou
             // HTTP 204: No content
             res.status(204).end()
         }
-        else { // Não encontrou (e não atualizou)
+        else {  // Não encontrou (e não atualizou)
             res.status(404).end()
         }
     }
@@ -83,19 +85,18 @@ controller.update = async (req, res) => {
 }
 
 controller.delete = async (req, res) => {
-    try{
+    try {
         const response = await Aluno.destroy(
-            req.body,
-            { where: { id: req.params.id }}
+            { where: { id: req.params.id } }
         )
 
-        // console.log("=====>", {response});
+        // console.log("======>", {response})
 
-        if(response) { // Encontrou e atualizou
+        if(response) {  // Encontrou e atualizou
             // HTTP 204: No content
             res.status(204).end()
         }
-        else { // Não encontrou (e não atualizou)
+        else {  // Não encontrou (e não atualizou)
             res.status(404).end()
         }
     }
@@ -107,4 +108,3 @@ controller.delete = async (req, res) => {
 }
 
 module.exports = controller
-

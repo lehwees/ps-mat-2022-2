@@ -11,29 +11,29 @@ module.exports = {
       },
       curso_id: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: 'cursos',
           key: 'id'
-        },
-        allowNull: false
+        }
       },
       professor_id: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: 'professores',
           key: 'id'
-        },
-        allowNull: false
+        }
       },
       nome: {
         type: Sequelize.STRING(30),
-        allowNull: false
+        allowNull: false,
       },
       dia_semana: {
         type: Sequelize.TINYINT,
+        allowNull: false,
         min: 1,  // domingo
-        max: 7,   // sabado
-        allowNull: false
+        max: 7   // sábado
       },
       horario_ini: {
         type: Sequelize.TIME,
@@ -48,16 +48,15 @@ module.exports = {
         allowNull: false
       },
       data_fim: {
-        type: Sequelize.DATEONLY,
-        allowNull: false
+        type: Sequelize.DATEONLY
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.DATE
       }
     });
   },
