@@ -1,3 +1,6 @@
+// professor@faustocintra.com.br, abc123
+// estag@empresa.com.br, Deu$
+
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 

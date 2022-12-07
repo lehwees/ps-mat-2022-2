@@ -1,7 +1,6 @@
-const {Professor, Turma} = require('../models');
+const { Professor, Turma } = require('../models');
 
 const controller = {}
-
 
 controller.create = async(req, res) => {
     try{
@@ -35,7 +34,7 @@ controller.retriveOne = async (req, res) => {
 controller.retrieve = async (req, res) => {
     try {
         const result = await Professor.findAll({
-              include: { model: Turma, as: 'turmas' }
+            include: { model: Turma, as: 'turmas' }
         })
         // HTTP 200: OK (implícito)
         res.send(result)

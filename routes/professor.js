@@ -1,17 +1,12 @@
 const express = require('express');
-const verif_token = require('../lib/verif_token');
-
 const router = express.Router()
 const controller = require('../controllers/professor')
+const verifToken = require('../lib/verif_token')
 
-router.post('/', verif_token ,controller.create);
-
-router.get('/', verif_token ,controller.retrieve);
-
-router.get('/:id', verif_token ,controller.retriveOne);
-
-router.patch('/:id', verif_token ,controller.update)
-
-router.delete('/:id', verif_token ,controller.delete)
+router.post('/', verifToken, controller.create);
+router.get('/', verifToken, controller.retrieve);
+router.get('/:id', verifToken, controller.retriveOne);
+router.patch('/:id', verifToken, controller.update)
+router.delete('/:id', verifToken, controller.delete)
 
 module.exports = router
